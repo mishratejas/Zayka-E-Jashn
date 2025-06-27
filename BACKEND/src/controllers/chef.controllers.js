@@ -93,6 +93,13 @@ const loginChef = async (req, res) => {
     throw new ApiError(error.statusCode || 500, error.message || "Chef login failed");
   }
 };
-
+export const getAllChefs = async (req, res) => {
+  try {
+    const chefs = await ChefProfile.find({});
+    res.status(200).json({ success: true, chefs });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
 
 export {registerChef,loginChef};

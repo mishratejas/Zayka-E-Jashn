@@ -3,22 +3,24 @@ function loginManager() {
   const password = document.getElementById("manager-password").value;
   const errorMsg = document.getElementById("manager-error");
 
-  fetch("http://localhost:3000/api/v1/manager/login", {
+  fetch("http://localhost:3000/api/v1/manager/login",{
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password })
+    body:JSON.stringify({email,password})
   })
     .then(res => res.json())
-    .then(data => {
-      if (data.user && data.user.role === "manager") {
+    .then(data =>{
+      if (data.accessToken && data.user.role === "manager"){
         localStorage.setItem("userRole", "manager");
+        localStorage.setItem("token",data.accessToken);
         window.location.href = "manager-dashboard.html";
-      } else {
+      }
+      else {
         errorMsg.textContent = data.message || "Login failed";
       }
     })
-    .catch(err => {
-      errorMsg.textContent = "Server error";
+    .catch(err =>{
+      errorMsg.textContent="Server error";
       console.error(err);
     });
 }

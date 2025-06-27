@@ -92,7 +92,8 @@ async function finalizeOrder(cart, subtotal, tax) {
       platformNumber: document.getElementById('platformNumber').value,
       coachPosition: document.getElementById('coachPosition').value
     };
-  }
+  }  
+  const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value || "Cash";
 
   const payload = {
     item: cart,
@@ -100,11 +101,26 @@ async function finalizeOrder(cart, subtotal, tax) {
     tax,
     total: subtotal + tax,
     type: orderType,
-    details
+    details,
+    paymentMethod
   };
 
+  const token = localStorage.getItem("token");  // Make sure token is stored on login
+
   try {
-    const res = await axios.post('http://localhost:3000/api/v1/orders', payload);
+    console.log("Token:", token);
+console.log("Payload:", payload);
+
+    const res = await axios.post(
+      'http://localhost:3000/api/v1/orders',
+      payload,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+
     if (res.data.success) {
       alert('Order placed successfully!');
       localStorage.removeItem('orderCart');

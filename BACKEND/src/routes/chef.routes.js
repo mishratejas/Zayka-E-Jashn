@@ -2,8 +2,8 @@ import express from "express";
 import { upload } from "../middlewares/multer.middleware.js";
 //import { uploadChefResume } from "../controllers/chef.controllers.js";
 import multer from "multer";
-import { registerChef,loginChef } from "../controllers/chef.controllers.js";
-
+import { registerChef,loginChef,getAllChefs } from "../controllers/chef.controllers.js";
+import { verifyManagerToken } from "../middlewares/managerAuth.middleware.js";
 const router = express.Router();
 
 router.post("/register",upload.single("resume"),registerChef);
@@ -16,4 +16,6 @@ router.get("/me",verifyChefToken,(req , res)=>{
         chef: req.chef
     });
 })
+
+router.get("/all",verifyManagerToken,getAllChefs);
 export default router;

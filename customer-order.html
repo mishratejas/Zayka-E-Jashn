@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Orders | Zayka-E-Jashn</title>
+  <link rel="stylesheet" href="customer-orders.css" />
+  <link rel="stylesheet" href="header1.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #fff;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      padding: 10px 20px;
+    }
+
+    main {
+      max-width: 1000px;
+      margin: 30px auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead {
+      background-color: #ff8c00;
+      color: white;
+    }
+
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+      text-align: center;
+    }
+
+    tbody tr:hover {
+      background-color: #f5f5f5;
+    }
+
+    .status {
+      font-weight: bold;
+      padding: 5px 10px;
+      border-radius: 5px;
+      display: inline-block;
+    }
+
+    .status.Pending {
+      background-color: #ffe082;
+      color: #8a6d3b;
+    }
+
+    .status.Completed {
+      background-color: #c8e6c9;
+      color: #2e7d32;
+    }
+
+    .status.Cancelled {
+      background-color: #ffcdd2;
+      color: #c62828;
+    }
+
+    .status.Processing {
+      background-color: #bbdefb;
+      color: #1565c0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Reuse your header/navigation -->
+  <header>
+    <div class="logo"></div>
+    <nav>
+      <ul>
+        <li><a href="customer-home.html">Home</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="orders.html" class="active">Order</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="customer-login.html">Logout</a></li>
+      </ul>
+    </nav>
+    <div class="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </header>
+
+  <main>
+    <h2>Your Order History</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Date</th>
+          <th>Items</th>
+          <th>Total</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="order-history-body">
+        <tr><td colspan="5">Loading orders...</td></tr>
+      </tbody>
+    </table>
+  </main>
+
+  <script>
+    async function loadCustomerOrders() {
+      try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          alert("Login to view orders.");
+          window.location.href = "customer-login.html";
+          return;
+        }
+
+        const res = await fetch("http://localhost:3000/api/v1/orders/my", {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem("token")
+          }
+        });
+
+        const data = await res.json();
+        const orders = data.orders || [];
+        const tbody = document.getElementById("order-history-body");
+
+        tbody.innerHTML = "";
+
+        if (orders.length === 0) {
+          tbody.innerHTML = "<tr><td colspan='5'>No orders found.</td></tr>";
+          return;
+        }
+
+        orders.forEach(order => {
+          const date = new Date(order.createdAt).toLocaleString();
+          const total = order.amount || order.totalAmount || 0;
+          const itemCount = Array.isArray(order.item) ? order.item.length : 0;
+          const status = order.status || "Pending";
+
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>#${order._id}</td>
+            <td>${date}</td>
+            <td>${itemCount}</td>
+            <td>₹${total}</td>
+            <td><span class="status ${status}">${status}</span></td>
+          `;
+          tbody.appendChild(row);
+        });
+      } catch (error) {
+        console.error("Failed to load orders:", error);
+        document.getElementById("order-history-body").innerHTML = "<tr><td colspan='5'>Error loading orders.</td></tr>";
+      }
+    }
+
+    window.onload = loadCustomerOrders;
+  </script>
+</body>
+</html>

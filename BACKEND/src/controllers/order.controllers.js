@@ -2,19 +2,13 @@ import { Order } from "../models/Order.models.js";
 import mongoose from "mongoose";
 export const createOrder = async(req,res)=>{
     try{
-        const chefId = req.chef._id;
-        const{customerName,item,details} = req.body;
-        if(!chefId){
-            return res.status(400).json({
-                success:false,
-                message:"Chef ID is required"
-            });
-        }
+       const {customerName,item,details,paymentMethod}=req.body;
         const order = await Order.create({
-            chefId:new mongoose.Types.ObjectId(chefId),
+            // chefId:new mongoose.Types.ObjectId(chefId),
             customerName,
             item,
-            details
+            details,
+            paymentMethod
         });
         res.status(201).json({success:true,order});
     }
@@ -27,9 +21,7 @@ export const getAllOrders = async(req,res)=>{
     try{
         // const chefId = req.chef._id;
         //console.log("Chef ID from token:", chefId);
-        const orders = await Order.find({
-            //chefId,
-            status:{$in:["pending","preparing","ready"]} 
+        const orders = await Order.find({ 
         }).sort({createdAt: -1});
         //console.log("Fetched orders:", orders);
         res.status(200).json({success:true,orders});
