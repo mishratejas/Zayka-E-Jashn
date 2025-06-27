@@ -1,0 +1,14 @@
+header {
+  position: absolute;
+  top: 0;
+  height:6.7%;
+  width: 100%;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background-color: rgba(231, 157, 19, 0.941); /* Orangish translucent */
+  backdrop-filter: blur(8px);
+  color: white;
+}

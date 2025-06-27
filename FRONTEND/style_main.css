@@ -1,0 +1,239 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body, html {
+  height: 100%;
+  font-family: 'Poppins', sans-serif;
+  overflow: hidden;
+}
+.container {
+  position: relative;
+  height: 100vh;
+  background: url('IMAGES/Hero1.jpg') no-repeat center center/cover;
+}
+.overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 1;
+}
+.logo {
+  width: 50%;
+  height: 50%;
+  background-image: url('IMAGES/logo1.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  
+  position: absolute;
+  top: 40px; 
+  left: 50%;
+  transform: translateX(-50%) rotateY(90deg) scale(0.5);
+  opacity: 0;
+  animation: logoIntro 2s ease forwards;
+  z-index: 3;
+}
+
+@keyframes logoIntro {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) rotateY(90deg) scale(0.5);
+  }
+  60% {
+    opacity: 1;
+    transform: translateX(-50%) rotateY(20deg) scale(1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) rotateY(0deg) scale(1);
+  }
+}
+/* #restaurant-name {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #f39c12;
+  text-shadow: 0 0 10px #f39c12;
+  user-select: none;
+} */
+main {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: rgb(171, 166, 166);
+  padding: 0 20px;
+}
+main h2 {
+  margin-top: 150px;
+  font-size: 2rem;
+  margin-bottom: 20px;
+  user-select: none;
+  font-style: bold;
+}
+.roles {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  width: 100%;
+  max-width: 1000px;
+  flex-wrap: wrap;
+  z-index: 2;
+}
+
+.role-card {
+  width: 180px;
+  height: 220px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid white;
+  border-radius: 16px;
+  backdrop-filter: blur(6px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.role-card:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+  transform: scale(1.1);
+}
+
+.role-card img {
+  width: 100%;
+  height: 80%;
+  object-fit: cover;
+  border-bottom: 1px solid white;
+}
+
+.role-card span {
+  font-size: 1.1rem;
+  color: white;
+  padding: 10px;
+  text-align: center;
+}
+
+#preloader {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: url('IMAGES/Hero1.jpg') no-repeat center center/cover;
+  background-blend-mode: multiply;
+  background-color: rgba(0,0,0,0.75);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  opacity: 1;
+  animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+.loader {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border: 6px solid rgba(243, 156, 18, 0.4);
+  border-top: 6px solid #f39c12;
+  border-radius: 50%;
+  animation: spin 1.5s linear infinite;
+  box-shadow: 0 0 15px #f39c12;
+}
+
+/* Animated dots around the spinner */
+.loader::before, .loader::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 14px;
+  height: 14px;
+  background: #f39c12;
+  border-radius: 50%;
+  transform-origin: center;
+  animation: orbit 1.5s linear infinite;
+}
+
+.loader::after {
+  background: rgba(243, 156, 18, 0.7);
+  width: 10px;
+  height: 10px;
+  animation-delay: 0.75s;
+}
+
+@keyframes orbit {
+  0% {
+    transform: rotate(0deg) translateX(40px) rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg) translateX(40px) rotate(-360deg);
+  }
+}
+
+@keyframes spin {
+  0% {transform: rotate(0deg);}
+  100% {transform: rotate(360deg);}
+}
+
+/* Loader Text */
+#loader-text {
+  margin-top: 20px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.2rem;
+  color: #f39c12;
+  text-shadow: 0 0 5px #f39c12;
+  animation: pulse 3s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {opacity: 1;}
+  50% {opacity: 0.5;}
+}
+
+@media (max-width: 768px) {
+  .logo {
+    width: 140px;
+    height: 140px;
+  }
+
+  .roles {
+    grid-template-columns: repeat(2, 1fr);
+    max-height: 60vh;
+    overflow-y: auto;
+    padding: 10px;
+  }
+
+  .role-card {
+    height: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo {
+    width: 120px;
+    height: 120px;
+  }
+
+  .roles {
+    grid-template-columns: 1fr;
+    max-height: 65vh;
+    overflow-y: auto;
+    gap: 15px;
+  }
+
+  .role-card {
+    width: 100%;
+    height: 200px;
+  }
+}

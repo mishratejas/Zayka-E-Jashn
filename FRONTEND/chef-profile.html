@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chef's Profile</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #e63946;
+      --secondary-color: #457b9d;
+      --accent-color: #a8dadc;
+      --text-color: #333;
+      --light-bg: #f1faee;
+      --dark-bg: #1d3557;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--light-bg);
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    .profile-container {
+      background-color: white;
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      width: 100%;
+      max-width: 900px;
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .profile-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 8px;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    }
+
+    .profile-header {
+      text-align: center;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .profile-header h1 {
+      font-family: 'Playfair Display', serif;
+      color: var(--dark-bg);
+      margin-bottom: 10px;
+      font-size: 2.2rem;
+      font-weight: 600;
+    }
+
+    .profile-header p {
+      color: var(--secondary-color);
+      font-size: 1rem;
+      letter-spacing: 1px;
+    }
+
+    .profile-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+    }
+
+    .profile-image {
+      flex: 1;
+      min-width: 250px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .profile-image img {
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 8px solid white;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+    }
+
+    .profile-image img:hover {
+      transform: scale(1.03);
+    }
+
+    .profile-details {
+      flex: 2;
+      min-width: 300px;
+    }
+
+    .detail-row {
+      margin-bottom: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+    }
+
+    .detail-row:last-child {
+      border-bottom: none;
+    }
+
+    .detail-label {
+      font-weight: 600;
+      color: var(--primary-color);
+      width: 120px;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .detail-label i {
+      margin-right: 8px;
+      font-size: 1rem;
+    }
+
+    .detail-value {
+      flex: 1;
+      min-width: 200px;
+      font-size: 0.95rem;
+      color: var(--text-color);
+    }
+
+    .biography {
+      margin-top: 40px;
+      padding: 25px;
+      background-color: rgba(168, 218, 220, 0.1);
+      border-radius: 12px;
+      position: relative;
+    }
+
+    .biography::before {
+      content: '"';
+      position: absolute;
+      top: 10px;
+      left: 15px;
+      font-family: 'Playfair Display', serif;
+      font-size: 5rem;
+      color: rgba(69, 123, 157, 0.1);
+      line-height: 1;
+    }
+
+    .biography h2 {
+      font-family: 'Playfair Display', serif;
+      color: var(--dark-bg);
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .biography p {
+      position: relative;
+      z-index: 1;
+      font-size: 0.95rem;
+    }
+
+    .footer {
+      margin-top: 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 20px;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .signature {
+      font-family: 'Brush Script MT', cursive;
+      font-size: 2rem;
+      color: var(--primary-color);
+      opacity: 0.9;
+    }
+
+    .back-button {
+      padding: 12px 25px;
+      background-color: var(--primary-color);
+      color: white;
+      text-decoration: none;
+      border-radius: 30px;
+      transition: var(--transition);
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .back-button:hover {
+      background-color: var(--dark-bg);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .letter-avatar {
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      font-size: 5rem;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .social-links a {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background-color: var(--accent-color);
+      color: var(--dark-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+
+    .social-links a:hover {
+      background-color: var(--primary-color);
+      color: white;
+      transform: translateY(-3px);
+    }
+
+    @media (max-width: 768px) {
+      .profile-container {
+        padding: 30px 20px;
+      }
+      
+      .profile-content {
+        flex-direction: column;
+        gap: 20px;
+      }
+      
+      .profile-image {
+        margin-bottom: 20px;
+      }
+      
+      .detail-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+      }
+      
+      .detail-label {
+        width: 100%;
+        margin-bottom: 0;
+      }
+
+      .letter-avatar {
+        width: 180px;
+        height: 180px;
+        font-size: 4rem;
+      }
+
+      .biography {
+        padding: 20px 15px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .footer {
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .profile-header h1 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="profile-container">
+    <div class="profile-header">
+      <h1>Chef's Profile</h1>
+      <p>Professional Culinary Expert</p>
+    </div>
+
+    <div class="profile-content">
+      <div class="profile-image">
+        <div class="letter-avatar" id="chefProfileAvatar">C</div>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#"><i class="fas fa-globe"></i></a>
+        </div>
+      </div>
+
+      <div class="profile-details">
+        <div class="detail-row">
+          <span class="detail-label"><i class="fas fa-user"></i> Name:</span>
+          <span class="detail-value" id="chefName">Chef Shivay</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label"><i class="fas fa-utensils"></i> Specialty:</span>
+          <span class="detail-value" id="chefSpecialty">North Indian Cuisine</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label"><i class="fas fa-star"></i> Experience:</span>
+          <span class="detail-value" id="chefExperience">10 years</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label"><i class="fas fa-map-marker-alt"></i> Location:</span>
+          <span class="detail-value" id="chefLocation">Delhi, India</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label"><i class="fas fa-envelope"></i> Email:</span>
+          <span class="detail-value" id="chefEmail">shivay@yahoo.in</span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label"><i class="fas fa-phone"></i> Phone:</span>
+          <span class="detail-value" id="chefPhone">9876543210</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="biography">
+      <h2>Biography</h2>
+      <p id="chefBio">With over a decade of experience in crafting authentic North Indian cuisine, Chef Shivay brings passion and tradition to every dish. Specializing in traditional recipes with a modern twist, Chef Shivay creates memorable dining experiences that blend innovation with culinary heritage. Trained at prestigious culinary institutes, Chef Shivay has worked with renowned restaurants across India and has been featured in several culinary magazines for innovative approaches to traditional dishes.</p>
+    </div>
+
+    <div class="footer">
+      <div class="signature" id="chefSignature">Chef Shivay</div>
+      <a href="chef-dashboard.html" class="back-button">
+        <i class="fas fa-arrow-left"></i> Back to Dashboard
+      </a>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const chefData = JSON.parse(localStorage.getItem("chefProfile"));
+      const avatarEl = document.getElementById("chefProfileAvatar");
+
+      if (chefData && avatarEl) {
+        const firstLetter = chefData.name?.charAt(0).toUpperCase() || "C";
+        avatarEl.textContent = firstLetter;
+        avatarEl.style.background = generateGradientFromName(chefData.name || "chef");
+      }
+
+      function generateGradientFromName(name) {
+        let hash = 0;
+        for (let i = 0; i < name.length; i++) {
+          hash = name.charCodeAt(i) + ((hash << 5) - hash);
+        }
+        const hue1 = hash % 360;
+        const hue2 = (hash + 30) % 360;
+        return `linear-gradient(135deg, hsl(${hue1}, 70%, 50%), hsl(${hue2}, 70%, 50%))`;
+      }
+
+      // Populate fields with backend-correct names
+      if (chefData) {
+        document.getElementById('chefName').textContent = chefData.name || 'Chef';
+        document.getElementById('chefSpecialty').textContent = chefData.specialization || 'Specialty';
+        document.getElementById('chefExperience').textContent = chefData.experience ? `${chefData.experience} years` : 'Not Provided';
+        document.getElementById('chefEmail').textContent = chefData.email || 'Not Provided';
+        document.getElementById('chefPhone').textContent = chefData.phone || 'Not Provided';
+        document.getElementById('chefSignature').textContent = chefData.name || 'Signature';
+        document.getElementById('chefLocation').textContent = "India"; // Static fallback
+        document.getElementById('chefBio').textContent = `Chef ${chefData.name} specializes in ${chefData.specialization} cuisine with ${chefData.experience}+ years of experience.`;
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Zayka-E-Jashn Menu</title>
+  <link rel="stylesheet" href="menu.css">
+  <style>
+    header {
+  background-color: rgba(190, 97, 16, 0.98);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 20px; /* Reduced padding */
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
+  border-bottom: 2px solid white;
+  height: 50px; /* Smaller height */
+}
+
+.logo {
+  width: 120px;
+  height: 40px;
+  background-image: url('IMAGES/logo2.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  padding: 8px 12px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+nav ul li a:hover {
+  background-color: white;
+  color: #e65c2a;
+  border-radius: 5px;
+}
+
+.hamburger {
+  display: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  nav ul {
+    display: none;
+    position: absolute;
+    right: 20px;
+    top: 60px;
+    background: rgba(0, 0, 0, 0.85);
+    flex-direction: column;
+    border-radius: 5px;
+  }
+
+  nav ul.show {
+    display: flex;
+  }
+
+  nav ul li {
+    margin: 10px 0;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    
+    <div class="logo"></div>
+    <div class="search-bar-container">
+  <input type="text" id="searchInput" placeholder="Search any dish..." />
+  <button onclick="searchDish()">Search</button>
+</div>
+    <nav>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Menu</a></li>
+        <li><a href="#">Order</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="customer-login.html">Logout</a></li>
+      </ul>
+    </nav>
+    <div class="hamburger">
+  <span></span>
+  <span></span>
+  <span></span>
+</div>
+
+  </header>
+  
+  <div class="top-bar">
+    <nav>
+      <button class="category-btn" onclick="showCategory('all')">All</button>
+      <button class="category-btn" onclick="showCategory('veg')">Veg</button>
+      <button class="category-btn" onclick="showCategory('nonveg')">Non-Veg</button>
+      <button class="category-btn" onclick="showCategory('italian')">Italian</button>
+      <button class="category-btn" onclick="showCategory('chinese')">Chinese</button>
+      <button class="category-btn" onclick="showCategory('beverages')">Beverages</button>
+      <button class="category-btn" onclick="showCategory('desserts')">Desserts</button>
+    </nav>
+    <div class="cart-icon" onclick="toggleCart()">
+      🛒 <span id="cart-count">0</span>
+    </div>
+  </div>
+<div id="menuContainer" class="menu-grid"></div>
+
+<div class="cart-panel" id="cartPanel">
+  <h3>Your Cart</h3>
+  <div id="cartList"></div>
+  <div class="cart-actions">
+    <button class="clear-btn" onclick="clearCart()">Clear Cart</button>
+    <button class="order-btn" onclick="placeOrder()">Place Order</button>
+  </div>
+</div>
+<div id="cartPopup" class="popup hidden">Item added to cart!</div>
+<style>
+  .popup {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #4caf50;
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  font-weight: bold;
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.popup.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-10px);
+}
+
+.popup.hidden {
+  display: none;
+}
+</style>
+<script src="menu.js"></script>
+
+</body>
+</html>

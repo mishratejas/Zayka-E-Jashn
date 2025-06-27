@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Customer Login - Zayka-E-Jashn</title>
+  <link rel="stylesheet" href="customer-login.css" />
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="overlay"></div>
+    <div class="form-wrapper">
+      <h1>Zayka-E-Jashn</h1>
+      <div class="form-toggle">
+        <button id="login-btn" class="active">Login</button>
+        <button id="signup-btn">Create Account</button>
+      </div>
+
+      <!-- Login Form -->
+      <form id="loginForm" class="form active">
+        <input type="email" id="login-email" placeholder="Email" required />
+        <input type="password" id="login-password" placeholder="Password" required minlength="6" />
+        <button type="submit" class="btn">Login</button>
+        <div class="alt-login">
+          <p>Login with . . . . .</p>
+          <div id="google-signin-btn" class="alt-btn google-btn"></div>
+          <button type="button" class="alt-btn phone-btn">Phone OTP</button>
+<div id="otp-section" class="form" style="display: none; flex-direction: column; gap: 10px;">
+  <input type="text" id="otp-input" placeholder="Enter 6-digit OTP" maxlength="6" />
+  <button type="button" id="verify-otp-btn" class="btn">Verify OTP</button>
+  <p id="otp-error" class="error-msg"></p>
+</div>
+
+<div id="recaptcha-container"></div>
+        </div>
+        <p id="login-error" class="error-msg"></p>
+      </form>
+
+      <!-- Signup Form -->
+      <form id="signupForm" class="form">
+        <input type="text" id="signup-name" placeholder="Full Name" required />
+        <input type="email" id="signup-email" placeholder="Email" required />
+        <input type="tel" id="signup-phone" placeholder="Phone Number" required pattern="^\d{10}$" />
+        <input type="password" id="signup-password" placeholder="Password" required minlength="6" />
+        <input type="password" id="signup-confirm-password" placeholder="Confirm Password" required minlength="6" />
+        <button type="submit" class="btn">Create Account</button>
+        <p id="signup-error" class="error-msg"></p>
+      </form>
+    </div>
+  </div>
+
+  <script src="customer-login.js"></script>
+</body>
+</html>

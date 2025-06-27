@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Complete Your Order - Zayka-E-Jashn</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="order.css" >
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-search@2.9.0/dist/leaflet-search.min.css" />
+  <script src="https://unpkg.com/leaflet-search@2.9.0/dist/leaflet-search.min.js"></script>
+</head>
+<body>
+  <div class="order-container">
+    <div class="order-header">
+      <h1><i class="fas fa-utensils"></i> Complete Your Order</h1>
+      <div class="progress-steps">
+        <div class="step" data-step="1"><span>1</span> Review Order</div>
+        <div class="step" data-step="2"><span>2</span> Order Details</div>
+        <div class="step" data-step="3"><span>3</span> Payment</div>
+        <div id="stepIndicator"></div>
+      </div>
+    </div>
+
+    <div class="order-summary">
+      <h2><i class="fas fa-shopping-basket"></i> Your Items</h2>
+      <div id="orderItems" class="order-items"></div>
+      <div class="order-totals">
+        <div class="total-row">
+          <span>Subtotal:</span>
+          <span id="subtotal">₹0</span>
+        </div>
+        <div class="total-row">
+          <span>Tax (5%):</span>
+          <span id="tax">₹0</span>
+        </div>
+        <div class="total-row grand-total">
+          <span>Total:</span>
+          <span id="totalCost">₹0</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="order-options">
+      <h2><i class="fas fa-truck"></i> Order Type</h2>
+      <div class="option-tabs">
+        <button class="tab-btn active" data-tab="onTable"><i class="fas fa-chair"></i> Dine-In</button>
+        <button class="tab-btn" data-tab="delivery"><i class="fas fa-motorcycle"></i> Delivery</button>
+        <button class="tab-btn" data-tab="train"><i class="fas fa-train"></i> Train Order</button>
+      </div>
+
+      <div id="onTableDetails" class="details-section active">
+        <div class="form-group">
+          <label for="tableNumber"><i class="fas fa-table"></i> Table Number</label>
+          <input type="number" id="tableNumber" placeholder="Enter your table number" />
+        </div>
+        <div class="form-group">
+          <label><i class="fas fa-clock"></i> Estimated Ready Time</label>
+          <div class="time-display">15-20 minutes</div>
+        </div>
+      </div>
+
+      <div id="deliveryDetails" class="details-section">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="custName"><i class="fas fa-user"></i> Full Name</label>
+            <input type="text" id="custName" placeholder="Enter your name" />
+          </div>
+          <div class="form-group">
+            <label for="custPhone"><i class="fas fa-phone"></i> Phone Number</label>
+            <input type="tel" id="custPhone" placeholder="Enter your phone number" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label><i class="fas fa-map-marker-alt"></i> Delivery Location</label>
+          <div class="location-options">
+            <button id="useCurrentLocation" class="location-btn"><i class="fas fa-location-arrow"></i> Use Current Location</button>
+            <button id="selectOnMap" class="location-btn"><i class="fas fa-map"></i> Select on Map</button>
+            <button id="manualEntry" class="location-btn"><i class="fas fa-keyboard"></i> Enter Manually</button>
+          </div>
+          <div id="mapContainer" class="hidden">
+            <div id="map"></div>
+            <div class="map-instructions">Click on the map to select your delivery location</div>
+          </div>
+          <div id="manualAddressContainer" class="hidden">
+            <textarea id="manualAddress" placeholder="Enter full address including landmarks"></textarea>
+          </div>
+        </div>
+        <div class="form-group">
+          <label><i class="fas fa-clock"></i> Estimated Delivery Time</label>
+          <div class="time-display">30-45 minutes</div>
+        </div>
+      </div>
+
+      <div id="trainDetails" class="details-section">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="trainNumber"><i class="fas fa-train"></i> Train Number/Name</label>
+            <input type="text" id="trainNumber" placeholder="e.g. 12345 or Rajdhani Express" />
+          </div>
+          <div class="form-group">
+            <label for="trainDate"><i class="fas fa-calendar"></i> Journey Date</label>
+            <input type="date" id="trainDate" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="stationName"><i class="fas fa-map-pin"></i> Station Name</label>
+            <input type="text" id="stationName" placeholder="Enter station name" />
+          </div>
+          <div class="form-group">
+            <label for="platformNumber"><i class="fas fa-th"></i> Platform Number</label>
+            <input type="number" id="platformNumber" placeholder="Enter platform number" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="coachPosition"><i class="fas fa-subway"></i> Coach Position</label>
+          <input type="text" id="coachPosition" placeholder="e.g. A1, B3, etc." />
+        </div>
+        <div class="form-group">
+          <label><i class="fas fa-clock"></i> Estimated Delivery Time</label>
+          <div class="time-display">Will be delivered at next station stop</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="payment-section">
+      <h2><i class="fas fa-credit-card"></i> Payment Method</h2>
+      <div class="payment-options">
+        <label class="payment-option">
+          <input type="radio" name="paymentMethod" value="Cash" checked />
+          <div class="payment-card">
+            <i class="fas fa-money-bill-wave"></i>
+            <span>Cash</span>
+          </div>
+        </label>
+        <label class="payment-option">
+          <input type="radio" name="paymentMethod" value="Card" />
+          <div class="payment-card">
+            <i class="fas fa-credit-card"></i>
+            <span>Card</span>
+          </div>
+        </label>
+        <label class="payment-option">
+          <input type="radio" name="paymentMethod" value="UPI" />
+          <div class="payment-card">
+            <i class="fas fa-mobile-alt"></i>
+            <span>UPI</span>
+          </div>
+        </label>
+        <label class="payment-option">
+          <input type="radio" name="paymentMethod" value="Wallet" />
+          <div class="payment-card">
+            <i class="fas fa-wallet"></i>
+            <span>Wallet</span>
+          </div>
+        </label>
+      </div>
+      <div id="cardDetails" class="payment-details hidden"></div>
+      <div id="upiDetails" class="payment-details hidden"></div>
+    </div>
+
+    <div class="order-actions">
+      <button id="backToMenuBtn" class="secondary-btn"><i class="fas fa-arrow-left"></i> Back to Menu</button>
+      <button id="placeOrderBtn" class="primary-btn"><i class="fas fa-check-circle"></i> Place Order</button>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="order.js"></script>
+  <script src="map.js"></script>
+</body>
+</html>

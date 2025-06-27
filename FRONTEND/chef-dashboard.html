@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zayka-E-Jashn | Chef Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="chef-dashboard.css">
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <div class="letter-avatar" id="chefSidebarAvatar">C</div>
+        <h3>Chef Dashboard</h3>
+      </div>
+      <div class="sidebar-menu">
+        <ul>
+          <li><a href="chef-profile.html" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+          <li><a href="#"><i class="fas fa-utensils"></i> My Recipes</a></li>
+          <li><a href="#"><i class="fas fa-clipboard-list"></i> Orders</a></li>
+          <li><a href="#"><i class="fas fa-chart-line"></i> Performance</a></li>
+          <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+          <li><a href="chef-login.html"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Header -->
+      <div class="dashboard-header">
+        <div class="header-title">
+          <h1>Welcome, Chef </h1>
+          <p>Your food !! Your taste...</p>
+        </div>
+        <div class="header-actions">
+          <div class="notification-bell">
+            <i class="fas fa-bell"></i>
+            <span class="notification-badge">3</span>
+          </div>
+          <div class="user-profile">
+            <div class="letter-avatar" id="chefSidebarAvatar">C</div>
+            <span>Chef</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats Cards -->
+      <div class="stats-cards" id="dashboardSection">
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-clipboard-list"></i></div>
+          <div class="stat-value">24</div>
+          <div class="stat-label">Today's Orders</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-clock"></i></div>
+          <div class="stat-value">8</div>
+          <div class="stat-label">Pending Prep</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-utensils"></i></div>
+          <div class="stat-value">15</div>
+          <div class="stat-label">Active Recipes</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-star"></i></div>
+          <div class="stat-value">4.8</div>
+          <div class="stat-label">Average Rating</div>
+        </div>
+      </div>
+
+      <!-- Orders Section -->
+      <div class="orders-section" id="ordersSection">
+        <div class="section-header">
+          <h2><i class="fas fa-clipboard-list"></i> Recent Orders</h2>
+          <a href="#">View All</a>
+        </div>
+        <div class="table-responsive">
+          <table class="orders-table">
+            <thead>
+              <tr>
+                <!-- <th>Order ID</th> -->
+                <th>Customer</th>
+                <th>Item</th>
+                <th>Details</th>
+                <th>Note</th>
+                <th>Action</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="orderBody">
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <script>
+        document.addEventListener("DOMContentLoaded", () => {
+  const chefData = JSON.parse(localStorage.getItem("chefProfile"));
+  if (!chefData) {
+    document.querySelectorAll(".user-profile span, .header-title h1").forEach(el => {
+    el.textContent = `Welcome, Chef ${chefData.name}`;
+  });
+}
+  // Update header greeting
+  const titleEl = document.querySelector(".header-title h1");
+  if (titleEl) titleEl.textContent = `Welcome, ${chefData.name}`;
+
+  // Update profile name
+  const profileNameEl = document.querySelector(".user-profile span");
+  if (profileNameEl) profileNameEl.textContent = chefData.name;
+});
+
+      </script>
+      <style>
+        .section-hidden {
+  display: none !important;
+}
+
+      </style>
+      <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const sidebarLinks = document.querySelectorAll('.sidebar-menu a');
+    const sections = {
+      dashboardSection: document.getElementById('dashboardSection'),
+      ordersSection: document.getElementById('ordersSection'),
+      recipesSection: document.getElementById('recipesSection'),
+      performanceSection: document.getElementById('performanceSection'),
+      settingsSection: document.getElementById('settingsSection')
+    };
+
+    sidebarLinks.forEach(link => {
+      link.addEventListener('click', e => {
+        const icon = link.querySelector("i");
+        const label = icon ? icon.nextSibling.textContent.trim().toLowerCase() : "";
+
+        Object.values(sections).forEach(sec => sec?.classList.add('section-hidden'));
+
+        switch (label) {
+          case 'dashboard':
+            sections.dashboardSection?.classList.remove('section-hidden');
+            break;
+          case 'orders':
+            sections.ordersSection?.classList.remove('section-hidden');
+            break;
+          case 'my recipes':
+            sections.recipesSection?.classList.remove('section-hidden');
+            break;
+          case 'performance':
+            sections.performanceSection?.classList.remove('section-hidden');
+            break;
+          case 'settings':
+            sections.settingsSection?.classList.remove('section-hidden');
+            break;
+        }
+
+        // Highlight active link
+        sidebarLinks.forEach(l => l.classList.remove("active"));
+        link.classList.add("active");
+      });
+    });
+  });
+</script>
+
+      <!-- Recipes Section -->
+      <div class="recipes-section" id="recipesSection">
+        <div class="section-header">
+          <h2><i class="fas fa-utensils"></i> Popular Recipes</h2>
+          <a href="#">Manage Recipes</a>
+        </div>
+        <div class="recipe-cards">
+          <!-- Recipe Card 1 -->
+          <div class="recipe-card">
+            <img src="IMAGES/dish3.jpg" alt="Hyderabadi Biryani" class="recipe-img">
+            <div class="recipe-info">
+              <h3>Hyderabadi Biryani</h3>
+              <div class="recipe-meta">
+                <span><i class="fas fa-clock"></i> 45 mins</span>
+                <span><i class="fas fa-fire"></i> Medium</span>
+                <span><i class="fas fa-star"></i> 4.9</span>
+              </div>
+              <div class="recipe-actions">
+                <button class="btn btn-outline"><i class="far fa-eye"></i> Quick View</button>
+                <button class="btn btn-primary">View Details</button>
+              </div>
+              
+              <!-- Enhanced Recipe Elements -->
+              <div class="recipe-popularity">
+                <div class="popularity-badge">
+                  <i class="fas fa-bolt"></i> Trending (Top 5%)
+                </div>
+                <div class="popularity-stats">
+                  <span><i class="fas fa-heart"></i> 342 Likes</span>
+                  <span><i class="fas fa-utensils"></i> 156 Orders</span>
+                </div>
+              </div>
+              
+              <div class="quick-actions">
+                <button class="btn-action btn-edit">
+                  <i class="fas fa-edit"></i> Edit Recipe
+                </button>
+                <button class="btn-action btn-stats">
+                  <i class="fas fa-chart-bar"></i> View Stats
+                </button>
+              </div>
+              
+              <div class="ingredient-status">
+                <h4>Ingredient Status</h4>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 85%"></div>
+                  <span>85% Ingredients Available</span>
+                </div>
+                <button class="btn-inventory">
+                  <i class="fas fa-clipboard-list"></i> Check Inventory
+                </button>
+              </div>
+              
+              <div class="feedback-preview">
+                <h4>Recent Feedback</h4>
+                <div class="review">
+                  <div class="review-rating">★★★★☆</div>
+                  <p>"The best biryani I've ever tasted!" - Priya K.</p>
+                </div>
+                <a href="#" class="view-all-reviews">
+                  <i class="fas fa-comment-alt"></i> View All 24 Reviews
+                </a>
+              </div>
+              
+              <div class="performance-metrics">
+                <div class="metric">
+                  <i class="fas fa-chart-line"></i>
+                  <div>
+                    <span class="metric-value">+32%</span>
+                    <span class="metric-label">This Week</span>
+                  </div>
+                </div>
+                <div class="metric">
+                  <i class="fas fa-stopwatch"></i>
+                  <div>
+                    <span class="metric-value">24 min</span>
+                    <span class="metric-label">Avg Prep Time</span>
+                  </div>
+                </div>
+                <div class="metric">
+                  <i class="fas fa-redo"></i>
+                  <div>
+                    <span class="metric-value">78%</span>
+                    <span class="metric-label">Repeat Orders</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="social-sharing">
+                <h4>Share This Recipe</h4>
+                <div class="social-icons">
+                  <a href="#"><i class="fab fa-instagram"></i></a>
+                  <a href="#"><i class="fab fa-facebook"></i></a>
+                  <a href="#"><i class="fab fa-whatsapp"></i></a>
+                  <a href="#"><i class="fas fa-link"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Recipe Card 2 -->
+          <div class="recipe-card">
+            <img src="IMAGES/dish4.jpg" alt="Kadhai Paneer" class="recipe-img">
+            <div class="recipe-info">
+              <h3>Kadhai Paneer</h3>
+              <div class="recipe-meta">
+                <span><i class="fas fa-clock"></i> 30 mins</span>
+                <span><i class="fas fa-fire"></i> Mild</span>
+                <span><i class="fas fa-star"></i> 4.7</span>
+              </div>
+              <div class="recipe-actions">
+                <button class="btn btn-outline"><i class="far fa-eye"></i> Quick View</button>
+                <button class="btn btn-primary">View Details</button>
+              </div>
+              
+              <!-- Enhanced Recipe Elements -->
+              <div class="recipe-popularity">
+                <div class="popularity-badge">
+                  <i class="fas fa-certificate"></i> Customer Favorite
+                </div>
+                <div class="popularity-stats">
+                  <span><i class="fas fa-heart"></i> 289 Likes</span>
+                  <span><i class="fas fa-utensils"></i> 132 Orders</span>
+                </div>
+              </div>
+              
+              <div class="quick-actions">
+                <button class="btn-action btn-edit">
+                  <i class="fas fa-edit"></i> Edit Recipe
+                </button>
+                <button class="btn-action btn-stats">
+                  <i class="fas fa-chart-bar"></i> View Stats
+                </button>
+              </div>
+              
+              <div class="ingredient-status">
+                <h4>Ingredient Status</h4>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 95%"></div>
+                  <span>95% Ingredients Available</span>
+                </div>
+                <button class="btn-inventory">
+                  <i class="fas fa-clipboard-list"></i> Check Inventory
+                </button>
+              </div>
+              
+              <div class="feedback-preview">
+                <h4>Recent Feedback</h4>
+                <div class="review">
+                  <div class="review-rating">★★★★★</div>
+                  <p>"Perfect balance of spices!" - Rahul M.</p>
+                </div>
+                <a href="#" class="view-all-reviews">
+                  <i class="fas fa-comment-alt"></i> View All 18 Reviews
+                </a>
+              </div>
+              
+              <div class="performance-metrics">
+                <div class="metric">
+                  <i class="fas fa-chart-line"></i>
+                  <div>
+                    <span class="metric-value">+15%</span>
+                    <span class="metric-label">This Week</span>
+                  </div>
+                </div>
+                <div class="metric">
+                  <i class="fas fa-stopwatch"></i>
+                  <div>
+                    <span class="metric-value">22 min</span>
+                    <span class="metric-label">Avg Prep Time</span>
+                  </div>
+                </div>
+                <div class="metric">
+                  <i class="fas fa-redo"></i>
+                  <div>
+                    <span class="metric-value">82%</span>
+                    <span class="metric-label">Repeat Orders</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="social-sharing">
+                <h4>Share This Recipe</h4>
+                <div class="social-icons">
+                  <a href="#"><i class="fab fa-instagram"></i></a>
+                  <a href="#"><i class="fab fa-facebook"></i></a>
+                  <a href="#"><i class="fab fa-whatsapp"></i></a>
+                  <a href="#"><i class="fas fa-link"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Recipe Card 3 -->
+          <div class="recipe-card">
+            <img src="IMAGES/dish1.jpg" alt="Raj Kachori" class="recipe-img">
+            <div class="recipe-info">
+              <h3>Raj Kachori</h3>
+              <div class="recipe-meta">
+                <span><i class="fas fa-clock"></i> 25 mins</span>
+                <span><i class="fas fa-fire"></i> Easy</span>
+                <span><i class="fas fa-star"></i> 4.8</span>
+              </div>
+              <div class="recipe-actions">
+                <button class="btn btn-outline"><i class="far fa-eye"></i> Quick View</button>
+                <button class="btn btn-primary">View Details</button>
+              </div>
+              
+              <!-- Enhanced Recipe Elements -->
+              <div class="recipe-popularity">
+                <div class="popularity-badge">
+                  <i class="fas fa-arrow-up"></i> Gaining Popularity
+                </div>
+                <div class="popularity-stats">
+                  <span><i class="fas fa-heart"></i> 156 Likes</span>
+                  <span><i class="fas fa-utensils"></i> 87 Orders</span>
+                </div>
+              </div>
+              
+              <div class="quick-actions">
+                <button class="btn-action btn-edit">
+                  <i class="fas fa-edit"></i> Edit Recipe
+                </button>
+                <button class="btn-action btn-stats">
+                  <i class="fas fa-chart-bar"></i> View Stats
+                </button>
+              </div>
+              
+              <div class="ingredient-status">
+                <h4>Ingredient Status</h4>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: 70%"></div>
+                  <span>70% Ingredients Available</span>
+                </div>
+                <button class="btn-inventory">
+                  <i class="fas fa-clipboard-list"></i> Check Inventory
+                </button>
+              </div>
+              
+              <div class="feedback-preview">
+                <h4>Recent Feedback</h4>
+                <div class="review">
+                  <div class="review-rating">★★★★☆</div>
+                  <p>"Crunchy and flavorful!" - Neha S.</p>
+                </div>
+                <a href="#" class="view-all-reviews">
+                  <i class="fas fa-comment-alt"></i> View All 12 Reviews
+                </a>
+              </div>
+              
+              <div class="performance-metrics">
+                <div class="metric">
+                  <i class="fas fa-chart-line"></i>
+                  <div>
+                    <span class="metric-value">+42%</span>
+                    <span class="metric-label">This Week</span>
+                  </div>
+                </div>
+                <div class="metric">
+                  <i class="fas fa-stopwatch"></i>
+                  <div>
+                    <span class="metric-value">18 min</span>
+                    <span class="metric-label">Avg Prep Time</span>
+                  </div>
+                </div>
+                <div class="metric">
+                  <i class="fas fa-redo"></i>
+                  <div>
+                    <span class="metric-value">65%</span>
+                    <span class="metric-label">Repeat Orders</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="social-sharing">
+                <h4>Share This Recipe</h4>
+                <div class="social-icons">
+                  <a href="#"><i class="fab fa-instagram"></i></a>
+                  <a href="#"><i class="fab fa-facebook"></i></a>
+                  <a href="#"><i class="fab fa-whatsapp"></i></a>
+                  <a href="#"><i class="fas fa-link"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+  const chefData = JSON.parse(localStorage.getItem("chefProfile"));
+  const headerAvatar = document.getElementById("chefHeaderAvatar");
+  const sidebarAvatar = document.getElementById("chefSidebarAvatar");
+
+  if (chefData) {
+    const firstLetter = chefData.name?.charAt(0).toUpperCase() || "C";
+    const bgColor = generateColorFromName(chefData.name || "chef");
+
+    [headerAvatar, sidebarAvatar].forEach(el => {
+      if (el) {
+        el.textContent = firstLetter;
+        el.style.backgroundColor = bgColor;
+      }
+    });
+  }
+
+  function generateColorFromName(name) {
+    let hash = 0;
+    for (let i = 0; i < name.length; i++) {
+      hash = name.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return `hsl(${hash % 360}, 70%, 50%)`;
+  }
+});
+
+  </script>
+  <script src="chef-dashboard.js"></script>
+</body>
+</html>

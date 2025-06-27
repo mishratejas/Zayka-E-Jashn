@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* === GLOBAL STYLES === */
+    :root {
+      --gold: #f39c12;
+      --dark: #111;
+      --darker: #0a0a0a;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--dark);
+      color: white;
+      overflow-x: hidden;
+    }
+    
+    /* === ANIMATED GRADIENT BACKGROUND === */
+    .bg-gradient {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(-45deg, #0a0a0a, #1a1a1a, #2a2a2a, #3a3a3a);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      z-index: -2;
+    }
+    
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    /* === GLOW EFFECT === */
+    .glow {
+      position: fixed;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(243, 156, 18, 0.2) 0%, rgba(243, 156, 18, 0) 70%);
+      z-index: -1;
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    .glow:nth-child(1) {
+      top: 20%;
+      left: 10%;
+      animation-delay: 0s;
+    }
+    
+    .glow:nth-child(2) {
+      top: 60%;
+      left: 70%;
+      animation-delay: 2s;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+    
+    /* === CONTACT CONTAINER === */
+    .contact-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    /* === CONTACT FORM === */
+    .contact-form {
+      flex: 1;
+      min-width: 400px;
+      background: rgba(20, 20, 20, 0.8);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(243, 156, 18, 0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .contact-form:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(243, 156, 18, 0.2);
+    }
+    
+    .contact-form h2 {
+      font-size: 2.2rem;
+      margin-bottom: 30px;
+      color: var(--gold);
+      position: relative;
+    }
+    
+    .contact-form h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 60px;
+      height: 3px;
+      background: var(--gold);
+    }
+    
+    .form-group {
+      margin-bottom: 25px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #ddd;
+    }
+    
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 15px;
+      background: rgba(30, 30, 30, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      color: white;
+      font-family: 'Poppins', sans-serif;
+      transition: all 0.3s;
+    }
+    
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 10px rgba(243, 156, 18, 0.3);
+    }
+    
+    .form-group textarea {
+      min-height: 150px;
+      resize: vertical;
+    }
+    
+    .submit-btn {
+      background: var(--gold);
+      color: #111;
+      border: none;
+      padding: 15px 30px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+      width: 100%;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .submit-btn:hover {
+      background: #e67e22;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(243, 156, 18, 0.4);
+    }
+    
+    /* === CONTACT INFO === */
+    .contact-info {
+      flex: 1;
+      min-width: 400px;
+    }
+    
+    .info-card {
+      background: rgba(20, 20, 20, 0.8);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(243, 156, 18, 0.1);
+      margin-bottom: 30px;
+    }
+    
+    .info-card h3 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      color: var(--gold);
+    }
+    
+    .info-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .info-item i {
+      font-size: 1.5rem;
+      color: var(--gold);
+      margin-right: 15px;
+      width: 40px;
+      text-align: center;
+    }
+    
+    .info-text h4 {
+      font-size: 1.1rem;
+      margin-bottom: 5px;
+    }
+    
+    .info-text p, 
+    .info-text a {
+      color: #bbb;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    
+    .info-text a:hover {
+      color: var(--gold);
+    }
+    
+    /* === SOCIAL MEDIA WAVES === */
+    .social-waves {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    
+    .social-waves a {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(30, 30, 30, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.3rem;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .social-waves a::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: var(--gold);
+      top: 100%;
+      left: 0;
+      transition: top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: -1;
+    }
+    
+    .social-waves a:hover {
+      transform: translateY(-5px);
+      color: #111;
+    }
+    
+    .social-waves a:hover::before {
+      top: 0;
+    }
+    
+    /* === MAP === */
+    .map-container {
+      width: 100%;
+      height: 300px;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(243, 156, 18, 0.1);
+    }
+    
+    .map-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    
+    /* === RESPONSIVE === */
+    @media (max-width: 900px) {
+      .contact-form, .contact-info {
+        min-width: 100%;
+      }
+    }
+    
+    @media (max-width: 500px) {
+      .contact-form, .info-card {
+        padding: 30px 20px;
+      }
+      
+      .contact-form h2, .info-card h3 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated Background Elements -->
+  <div class="bg-gradient"></div>
+  <div class="glow"></div>
+  <div class="glow"></div>
+  
+  <!-- Main Contact Section -->
+  <div class="contact-container">
+    <!-- Contact Form -->
+    <div class="contact-form">
+      <h2>Get In Touch</h2>
+      <form id="contactForm">
+        <div class="form-group">
+          <label for="name">Your Name</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="subject">Subject</label>
+          <input type="text" id="subject" name="subject" required>
+        </div>
+        <div class="form-group">
+          <label for="message">Your Message</label>
+          <textarea id="message" name="message" required></textarea>
+        </div>
+        <button type="submit" class="submit-btn">Send Message</button>
+      </form>
+    </div>
+    
+    <!-- Contact Information -->
+    <div class="contact-info">
+      <div class="info-card">
+        <h3>Contact Info</h3>
+        
+        <div class="info-item">
+          <i class="fas fa-map-marker-alt"></i>
+          <div class="info-text">
+            <h4>Location</h4>
+            <p>MNNITA Prayagraj complex, Prayagraj,Uttar Pradesh </p>
+          </div>
+        </div>
+        
+        <div class="info-item">
+          <i class="fas fa-phone-alt"></i>
+          <div class="info-text">
+            <h4>Phone</h4>
+            <p><a href="tel:+911234567890">+91 7505559165</a></p>
+          </div>
+        </div>
+        
+        <div class="info-item">
+          <i class="fas fa-envelope"></i>
+          <div class="info-text">
+            <h4>Email</h4>
+            <p><a href="mailto:krishnamishra040907@gmail.com">krishnamishra040907@gmail.com</a></p>
+          </div>
+        </div>
+        
+        <div class="info-item">
+          <i class="fas fa-clock"></i>
+          <div class="info-text">
+            <h4>Hours</h4>
+            <p>Monday - Sunday: 11AM - 11PM</p>
+          </div>
+        </div>
+        
+        <h3 style="margin-top: 30px;">Follow Us</h3>
+        <div class="social-waves">
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-tiktok"></i></a>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+  <script>
+    // Form submission with animation
+    document.getElementById("contactForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      
+      const submitBtn = document.querySelector(".submit-btn");
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+      submitBtn.disabled = true;
+      
+      const formData = {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        subject: document.getElementById("subject").value,
+        message: document.getElementById("message").value
+      };
+      
+      try {
+        const response = await fetch("http://localhost:3000/api/send-email", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData)
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+          submitBtn.innerHTML = '<i class="fas fa-check"></i> Sent!';
+          setTimeout(() => {
+            submitBtn.innerHTML = 'Send Message';
+            submitBtn.disabled = false;
+            document.getElementById("contactForm").reset();
+          }, 2000);
+          
+          // Confetti effect
+          const confetti = document.createElement("div");
+          confetti.style.position = "fixed";
+          confetti.style.top = "0";
+          confetti.style.left = "0";
+          confetti.style.width = "100%";
+          confetti.style.height = "100%";
+          confetti.style.pointerEvents = "none";
+          confetti.style.zIndex = "1000";
+          document.body.appendChild(confetti);
+          
+          for (let i = 0; i < 100; i++) {
+            const particle = document.createElement("div");
+            particle.style.position = "absolute";
+            particle.style.width = "8px";
+            particle.style.height = "8px";
+            particle.style.backgroundColor = "var(--gold)";
+            particle.style.borderRadius = "50%";
+            particle.style.left = `${Math.random() * 100}vw`;
+            particle.style.top = "0";
+            particle.style.opacity = "0.8";
+            particle.style.transform = `scale(${Math.random() * 0.5 + 0.5})`;
+            confetti.appendChild(particle);
+            
+            const animation = particle.animate([
+              { top: "0", opacity: 1 },
+              { top: "100vh", opacity: 0 }
+            ], {
+              duration: Math.random() * 2000 + 1000,
+              easing: "cubic-bezier(0.1, 0.8, 0.3, 1)"
+            });
+            
+            animation.onfinish = () => particle.remove();
+          }
+          
+          setTimeout(() => confetti.remove(), 3000);
+        } else {
+          throw new Error(result.message || "Failed to send");
+        }
+      } catch (error) {
+        submitBtn.innerHTML = '<i class="fas fa-times"></i> Error';
+        setTimeout(() => {
+          submitBtn.innerHTML = 'Send Message';
+          submitBtn.disabled = false;
+        }, 2000);
+        console.error("Error:", error);
+      }
+    });
+    
+  </script>
+</body>
+</html>
