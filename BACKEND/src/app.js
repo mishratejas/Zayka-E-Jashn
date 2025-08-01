@@ -21,13 +21,14 @@ import orderRoutes from "./routes/order.routes.js";
 import managerRoutes from './routes/manager.routes.js';
 import adminRoutes from './routes/admin.routes.js';
 import contactRoutes from './routes/contact.routes.js';
-
+import chatRoutes from "./routes/chat.routes.js";
 app.use("/api/v1/users",userRouter);
 app.use("/api/v1/chefs",chefRoutes);
 app.use("/api/v1/orders",orderRoutes);
 app.use('/api/v1/manager',managerRoutes);
 app.use('/api/v1/admin',adminRoutes);
 app.use("/api",contactRoutes);
+app.use("/chat",chatRoutes);
 
 app.listen(3000,()=>{
     console.log("Server running at http://localhost:3000");    
