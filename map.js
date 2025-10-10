@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('selectOnMap')?.addEventListener('click', showMap);
   document.getElementById('manualEntry')?.addEventListener('click', showManualEntry);
 });
-
+//show
 function showMap() {
   // Hide manual entry and show map
   document.getElementById('manualAddressContainer').classList.add('hidden');
