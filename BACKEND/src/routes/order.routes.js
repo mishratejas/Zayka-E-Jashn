@@ -1,24 +1,41 @@
-import express from 'express';
-import { createOrder,getAllOrders,updateOrderStatus } from '../controllers/order.controllers.js';
-import { verifyChefToken } from '../middlewares/chefAuth.middleware.js';
-import { verifyManagerToken } from '../middlewares/managerAuth.middleware.js';
+import express from "express";
+import {
+  createOrder,
+  getAllOrders,
+  getMyOrders,
+  getOrderById,
+  updateOrderStatus,
+  assignChef,
+  getOrderAnalytics,
+  cancelMyOrder,
+} from "../controllers/order.controller.js";
+import {
+  verifyJWT,
+  verifyChefJWT,
+  verifyManagerJWT,
+} from "../middlewares/auth.middleware.js";
+import { validate } from "../middlewares/validate.middleware.js";
+import { createOrderSchema, updateOrderStatusSchema } from "../validators/schemas.js";
+
 const router = express.Router();
-router.post('/',createOrder);
-router.get('/',verifyChefToken,getAllOrders);
-router.patch('/:id',verifyChefToken,updateOrderStatus);
-router.get("/all", verifyManagerToken, getAllOrders);
 
-import { verifyCustomerToken } from '../middlewares/customerAuth.middlewares.js';
-import {Order} from '../models/Order.models.js';
+// ── Public (guest orders allowed) ─────────────────────────────────────────────
+router.post("/", validate(createOrderSchema), createOrder);
 
-router.get("/my", verifyCustomerToken, async (req, res) => {
-  try {
-    const orders = await Order.find({ user: req.user._id }).sort({ createdAt: -1 });
-    res.status(200).json({ success: true, orders });
-  } catch (error) {
-    console.error("Error fetching customer orders:", error.message);
-    res.status(500).json({ success: false, message: "Failed to fetch orders" });
-  }
-});
+// ── Customer ──────────────────────────────────────────────────────────────────
+router.get("/my", verifyJWT, getMyOrders);
+router.delete("/:id/cancel", verifyJWT, cancelMyOrder);
+
+// ── Manager / Admin ───────────────────────────────────────────────────────────
+router.get("/all", verifyManagerJWT, getAllOrders);
+router.get("/analytics", verifyManagerJWT, getOrderAnalytics);
+router.patch("/:id/assign-chef", verifyManagerJWT, assignChef);
+
+// ── Chef ──────────────────────────────────────────────────────────────────────
+router.get("/", verifyChefJWT, getAllOrders);
+router.patch("/:id/status", verifyChefJWT, validate(updateOrderStatusSchema), updateOrderStatus);
+
+// ── Shared ────────────────────────────────────────────────────────────────────
+router.get("/:id", getOrderById);
 
 export default router;

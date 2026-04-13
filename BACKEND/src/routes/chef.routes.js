@@ -1,21 +1,31 @@
 import express from "express";
-import { upload } from "../middlewares/multer.middleware.js";
-//import { uploadChefResume } from "../controllers/chef.controllers.js";
 import multer from "multer";
-import { registerChef,loginChef,getAllChefs } from "../controllers/chef.controllers.js";
-import { verifyManagerToken } from "../middlewares/managerAuth.middleware.js";
+import {
+  registerChef,
+  loginChef,
+  getChefProfile,
+  updateChefProfile,
+  getAllChefs,
+  getChefDashboard,
+  uploadChefAvatar,
+} from "../controllers/chef.controller.js";
+import { verifyChefJWT } from "../middlewares/auth.middleware.js";
+import { validate } from "../middlewares/validate.middleware.js";
+import { loginSchema } from "../validators/schemas.js";
+
 const router = express.Router();
+const upload = multer({ dest: "public/temp/" });
 
-router.post("/register",upload.single("resume"),registerChef);
-router.post("/login",loginChef);
+// ── Public ────────────────────────────────────────────────────────────────────
+router.get("/", getAllChefs);
+router.post("/register", upload.single("resume"), registerChef);
+router.post("/login", validate(loginSchema), loginChef);
 
-import { verifyChefToken } from "../middlewares/chefAuth.middleware.js";
-router.get("/me",verifyChefToken,(req , res)=>{
-    res.status(200).json({
-        success:true,
-        chef: req.chef
-    });
-})
+// ── Protected (chef only) ─────────────────────────────────────────────────────
+router.use(verifyChefJWT);
+router.get("/dashboard", getChefDashboard);
+router.get("/profile", getChefProfile);
+router.patch("/profile", updateChefProfile);
+router.post("/avatar", upload.single("avatar"), uploadChefAvatar);
 
-router.get("/all",verifyManagerToken,getAllChefs);
 export default router;
